@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 require('dotenv').config();
-const stripe = require('stripe');
+const stripe = require('stripe')('sk_test_51Id6BuJlisOnJxVCXo4TofVNpfY4jgZjdHrGIOxLG6ULRXQvVqnHbooMszjdbUi4ryQtXOe2MLD2vpTjbypOfgN800DDBd5xXO'); //
 
 var app = express();
 
@@ -15,6 +15,26 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json({}));
+
+
+// NEW ADDED ENDPOINT FOR SERVER THAT CREATES A CHECKOUT SESSION (https://stripe.com/docs/checkout/quickstart)
+// Step 1: Create a Checkout Session
+app.post('/create-checkout-session', async (req, res) => {
+    const session = await stripe.checkout.sessions.create({
+      // Step 2: Define Products
+
+      // Step 3: Choose the Mode (payment, subscription, setup)
+      mode: "payment",
+
+      // Step 4: Supply Success and Cancel URLs
+      success_url: 'http://localhost:3000/success',
+      //cancel_url: '???',
+    });
+
+    // Step 5: Create Redirect to Checkout
+    res.redirect(303, session.url);
+});
+
 
 /**
  * Home route
@@ -34,19 +54,19 @@ app.get('/checkout', function(req, res) {
   switch (item) {
     case '1':
       title = "The Art of Doing Science and Engineering"
-      amount = 2300      
+      amount = 2300
       break;
     case '2':
       title = "The Making of Prince of Persia: Journals 1985-1993"
       amount = 2500
-      break;     
+      break;
     case '3':
       title = "Working in Public: The Making and Maintenance of Open Source"
-      amount = 2800  
-      break;     
+      amount = 2800
+      break;
     default:
       // Included in layout view, feel free to assign error
-      error = "No item selected"      
+      error = "No item selected"
       break;
   }
 
