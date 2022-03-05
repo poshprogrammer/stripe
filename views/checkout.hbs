@@ -1,3 +1,4 @@
+<script src="https://js.stripe.com/v3/"></script>
 <div class="row justify-content-md-center">
   <div class="col-6">
     <div class="text-center mt-40">
@@ -33,9 +34,53 @@
         -->
 
         <!-- NEW CHECKOUT CLIENT BELOW -->
+        <!--
         <form action="/create-checkout-session" method="POST">
-          <button type="submit">Checkout</button>
+          <button type="submit" id="checkout-button">Checkout</button>
         </form>
+        -->
+
+        <!-- UPDATED CHECKOUT CLIENT (https://www.youtube.com/watch?v=UjcSWxPNo18&t=958s) -->
+        <button type="submit" id="btn" class="btn-lg btn-block btn-primary">Pay $<span class="amount" data-amount="{{amount}}"></span></button>
+        <script charset="utf-8">
+
+          // Initialize and instance of Stripe
+          var stripe = Stripe('pk_test_51Id6BuJlisOnJxVCkd5DtI8slXl1hkg3lSjRsNXSVRMilSIT2XWwQrgIuLI98AsAf1PuMCn1fAMfqVUArjTXtbyD00y838joOp');
+
+          // Grab reference to the button
+          var button = document.getElementById('btn');
+
+          var itemvar = "{ item: " + {{item}} + " }";
+          console.log("ITEMVAR = " + itemvar);
+
+          // Add a click handler to make an Ajax request to  the server
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            fetch('/create-checkout-session', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                item: "{{item}}"
+              }),
+            })
+            .then((response) => response.json())
+            // Resolve promise with a session object
+            .then((session) => {
+              // Use Stripe.js to redirect to the Stripe-hosted page
+              stripe.redirectToCheckout({ sessionId: session.id });
+              console.log('Success:', data);
+            })
+            .catch((error) => {
+              console.error('Error:'. error);
+            });
+
+          });
+
+        </script>
+
       </div>
     </div>
   </div>

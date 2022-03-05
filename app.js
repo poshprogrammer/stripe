@@ -16,23 +16,71 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json({}));
 
-
 // NEW ADDED ENDPOINT FOR SERVER THAT CREATES A CHECKOUT SESSION (https://stripe.com/docs/checkout/quickstart)
 // Step 1: Create a Checkout Session
 app.post('/create-checkout-session', async (req, res) => {
+    console.log("BEGIN CREATE-CHECKOUT-SESSION");
+    const id = req.body.item;
+    console.log("ID = " + id);
+
+    let title, amount, error;
+
+    switch (id) {
+      case "1":
+        title = "The Art of Doing Science and Engineering"
+        amount = 2300
+        break;
+      case "2":
+        title = "The Making of Prince of Persia: Journals 1985-1993"
+        amount = 2500
+        break;
+      case "3":
+        title = "Working in Public: The Making and Maintenance of Open Source"
+        amount = 2800
+        break;
+      default:
+        // Included in layout view, feel free to assign error
+        error = "No item selected"
+        break;
+    }
+
+    console.log("TITLE = " + title);
+    console.log("AMOUNT = " + amount);
+
     const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+
       // Step 2: Define Products
+      line_items: [
+        {
+          // Data used to create new Price object inline
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: title,
+            },
+            unit_amount: amount,
+          },
+          quantity: 1,
+        },
+      ],
 
       // Step 3: Choose the Mode (payment, subscription, setup)
       mode: "payment",
 
       // Step 4: Supply Success and Cancel URLs
       success_url: 'http://localhost:3000/success',
-      //cancel_url: '???',
+      cancel_url: 'http://localhost:3000/checkout?item=' + id,
     });
 
     // Step 5: Create Redirect to Checkout
-    res.redirect(303, session.url);
+    // res.redirect(303, session.url);
+
+    // UPDATED Step 5: (https://www.youtube.com/watch?v=UjcSWxPNo18)
+    // Render back to the client something that can be used to redirect
+    res.json({
+      id: session.id,
+    });
 });
 
 
@@ -73,7 +121,8 @@ app.get('/checkout', function(req, res) {
   res.render('checkout', {
     title: title,
     amount: amount,
-    error: error
+    error: error,
+    item: item
   });
 });
 
