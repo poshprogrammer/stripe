@@ -1,4 +1,4 @@
-# Stripe Solution Architect Written Project
+# Stripe Solutions Architect Written Project
 ## Use Case
 A family-owned campus bookstore has recently begun selling e-text books to university students, but is currently still doing so out of the brick and mortar store. With a reason and desire to open up selling of these e-books online, they are considering Stripe as a facilitating vendor. However, they are struggling to visualize what the user experience would be and have requested a demo of a similar e-commerce application with the below requirements, details about how the solution was made (and how beginners may replicate it), as well as further improvements that could be offered.
 
@@ -7,7 +7,7 @@ A family-owned campus bookstore has recently begun selling e-text books to unive
  - [X] The user can checkout and purchase the item using [Stripe Elements](https://stripe.com/payments/elements)
  - [X] The user recevies a display confirmation fo purchase with the total of the charge and unique id (in the form of a Stripe Payment Intent ID)
 
-## How to Run the Solution
+## How to Run the Solution [(Click for Demo Video)](https://youtu.be/CRV2Q2w8A90)
 > **Note:** This solution was made with the [JavaScript (Node.js) boilerplate application](https://github.com/mattmitchell6/sa-takehome-project-node) as its starting point
 
 To get started, clone the repository using the code below (or click "Download ZIP" under the Clone button above), navigate to the appropriate directory, and install the dependencies.
@@ -58,7 +58,14 @@ All that remained was figuring out how to dynamically choose the right Price Obj
  - **Re-familiarizing Myself With Full-Stack Development:** It has been a long time since my development work has occured outside of the ServiceNow platform, so I had to spend some extra time re-learning certain concepts. Like Celine Deon famously sang, though, 🎶 It's all comin' back to me now!  🎶 For example, this showed up in the forms of having to re-figure out how to pass query parameters to client and server.
 
 
-## What Are Future State Options?
+## What Are Some Future State Options?
 
- - Hard coded prices and keys
- -
+ - Removal of hard-coded test entities (e.g. keys, Price Objects)
+ - Add shopping cart functionality (i.g. allow for more than one Price Ojbect per Checkout Session)
+ - **Stripe Payments**
+	 - [Set up a bank account to receive payouts on a schedule](https://stripe.com/docs/payouts)
+	 - [Automatically send customers payment or refund receipts](https://stripe.com/docs/receipts)
+ - **Stripe Terminal**
+	 - [Use Stripe to facilitate the in-person payments at their brick and mortar store as well](https://stripe.com/docs/terminal/designing-integration)
+ - **Stripe Radar**
+	 - [Use Stripe to protect their business in real-time from fraud](https://stripe.com/docs/radar/integration)
