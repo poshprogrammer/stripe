@@ -7,13 +7,13 @@
   </div>
   <div class="mt-40 text-center">
     <div class="mt-20 text-center text-secondary border-placeholder">
-      <pre class="json" id="session-data"></pre>
-
+      <p id="payment_intent"></p>
+      <p id="amount_total"></p>
     </div>
   </div>
   <script charset="utf-8">
-    var sessionData = document.getElementById('session-data');
-    console.log('SESSIONDATA: ' + sessionData);
+    var paymentIntent = document.getElementById('payment_intent');
+    var amountTotal = document.getElementById('amount_total');
 
     // Pull id out of query string params
     var params = new URLSearchParams(window.location.search);
@@ -23,7 +23,12 @@
     fetch('/checkout-session?id=' + id)
     .then((response) => response.json())
     .then((session) => {
-      sessionData.innerText = JSON.stringify(session, null, 2);
+      //sessionData.innerText = JSON.stringify(session, null, 2);
+      console.log(session);
+      paymentIntent.innerText = session["payment_intent"];
+      amountTotal.innerText = "$" + session["amount_total"] / 100;
+
+      //amountTotal.setAttribute("data-amount", session["amount_total"]);
     })
     .catch((error) => {
       console.error('Error:', error);
