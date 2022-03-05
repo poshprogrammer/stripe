@@ -69,7 +69,7 @@ app.post('/create-checkout-session', async (req, res) => {
       mode: "payment",
 
       // Step 4: Supply Success and Cancel URLs
-      success_url: 'http://localhost:3000/success',
+      success_url: 'http://localhost:3000/success?id={CHECKOUT_SESSION_ID}',
       cancel_url: 'http://localhost:3000/checkout?item=' + id,
     });
 
@@ -124,6 +124,14 @@ app.get('/checkout', function(req, res) {
     error: error,
     item: item
   });
+});
+
+app.get('/checkout-session', async (req,res) => {
+  // Add in expand arguement so that session includes line items
+  const session = await stripe.checkout.sessions.retrieve(req.query.id, {
+    expand: ['line_items']
+  });
+  res.json(session);
 });
 
 /**

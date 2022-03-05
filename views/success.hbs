@@ -7,8 +7,26 @@
   </div>
   <div class="mt-40 text-center">
     <div class="mt-20 text-center text-secondary border-placeholder">
-      Total: ${{}}
-      Stripe Payment ID: {{}}
+      <pre class="json" id="session-data"></pre>
+
     </div>
   </div>
+  <script charset="utf-8">
+    var sessionData = document.getElementById('session-data');
+    console.log('SESSIONDATA: ' + sessionData);
+
+    // Pull id out of query string params
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+
+    // Makes an API call to Stripe to retrieve the Checkout Session and present that here
+    fetch('/checkout-session?id=' + id)
+    .then((response) => response.json())
+    .then((session) => {
+      sessionData.innerText = JSON.stringify(session, null, 2);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  </script>
 </main>
