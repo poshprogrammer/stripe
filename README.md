@@ -19,8 +19,13 @@ Then, run the application locally using the code below and access the solution's
 ```
 npm start
 ```
+If you are wanting to test the checkout functionality, use credit card number `4242 4242 4242 4242` (with any expiration date in the future and CCV) for a successful charge or `4000 0000 0000 0002` for a declined charge.
 ## How Does It Work?
+After using the index to select a specific product, the user clicks a button to purchase on a page where an instance of Stripe has already been initialized using the owner's public key information. When the button is clicked, an Ajax request is made to the server containing the item id of what the user is purchasing.
 
+On the server-side, the item's title and amount and looked up and used in the process of creating a new Checkout Session along with the owner's secret key. The Checkout Session Object also contains what payment methods are accepted, the mode of payment (e.g. one-time versus subscription), and the appropriate URLs for success or failure. This is passed back to the client to progress, if successful, to Stripe's default Check Out page.
+
+ After the user enter's in their payment information, they are then taken to either the success URL or the cancel URL from the Checkout Session. On the success page, they will see the important information from their session including their unique Stripe Payment Intent ID and the amount charged.
 
 ![Stripe Checkout Flow Diagram](https://i.stack.imgur.com/hQrhp.png)
 ### Stripe APIs Used
@@ -53,4 +58,7 @@ All that remained was figuring out how to dynamically choose the right Price Obj
  - **Re-familiarizing Myself With Full-Stack Development:** It has been a long time since my development work has occured outside of the ServiceNow platform, so I had to spend some extra time re-learning certain concepts. Like Celine Deon famously sang, though, 🎶 It's all comin' back to me now!  🎶 For example, this showed up in the forms of having to re-figure out how to pass query parameters to client and server.
 
 
-## What Are Future State Options? 
+## What Are Future State Options?
+
+ - Hard coded prices and keys
+ -
