@@ -1,16 +1,63 @@
 <main>
-  <div class="mt-40 text-center text-success">
-    <h1>
-      <i class="far fa-check-circle"></i>
-      Success!
-    </h1>
+
+
+
+
+  <div class="container mt-5 mb-5 ">
+    <div class="row d-flex justify-content-center ">
+        <div class="col-md-8 ">
+            <div class="card box-shadow">
+                <div class="invoice p-5">
+                  <h5>Your order is confirmed!</h5>
+                  <span>Your e-book order has been confirmed and sent to your email in the next 5 minutes.</span>
+                  <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+                  </div>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="py-2"> <span class="d-block text-muted">Order Date</span> <span id="current_date"></span> </div>
+                                </td>
+                                <td>
+                                    <div class="py-2"> <span class="d-block text-muted">Order No</span> <p id="payment_intent"></p> </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="row d-flex justify-content-end">
+                    <div class="col-md-5">
+                        <table class="table table-borderless">
+                            <tbody class="totals">
+                                <tr class="border-top border-bottom">
+                                    <td>
+                                        <div class="text-left"> <span class="font-weight-bold">Total</span> </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-right"> <p id="amount_total" class="font-weight-bold"></p> </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="invoice p-5"><span>Thank you for your purchase. If you have any questions or concerns, please reach out to the business email listed below.<br><br></span><p>Sincerely,<br>The Stripe Press Team</p></div>
+              <div class="d-flex justify-content-between footer p-3"> <span>Need Help? <a href="#">Email Us Questions Here</a></span></div>
+          </div>
+      </div>
   </div>
-  <div class="mt-40 text-center">
-    <div class="mt-20 text-center text-secondary border-placeholder">
-      <p id="payment_intent"></p>
-      <p id="amount_total"></p>
-    </div>
-  </div>
+</div>
+
+  <script>
+    let today = new Date();
+    console.log(today.toDateString());
+    const [month, day, year]  = [today.getMonth(), today.getDate(), today.getFullYear()];
+    const writtenDate = month + "/" + day + "/" + year;
+
+    document.getElementById("current_date").innerHTML = today.toDateString();
+  </script>
+
   <script charset="utf-8">
     var paymentIntent = document.getElementById('payment_intent');
     var amountTotal = document.getElementById('amount_total');
